@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
         }
 
+        //Add Health Display
+
         horizontalInput = Input.GetAxis("Horizontal");
 
         if(transform.position.x < -xRange){
@@ -42,17 +44,18 @@ public class PlayerController : MonoBehaviour
             //Launch projective from the player
             Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
         }
-
-        //Add Health Tracking, Animals do damage and Food increase health 
-
-        //Get Collisions, Food Tag or Animal tag will determine change
-        //Psudep
-        /*if collisionObject.tag == "animal"
-            health - animalDamage;
-        else if collisionObject.tag == "food"
-            health + foodHealth;
-        */
-
-        
+    }
+    
+    private void OnTriggerEnter(Collider other){
+        Debug.Log(other.tag);
+        if(other.tag == "animal"){
+            health = health - animalDamage;
+            Debug.Log("Health: " + health);
+        } else if(other.tag == "food"){
+            if(!(health >= 100)){
+                health = health + foodHealth;
+                Debug.Log("Health: " + health);
+            } 
+        }    
     }
 }
